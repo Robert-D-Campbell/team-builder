@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+
+import TeamMember from "./components/TeamMember";
+import TeamForm from "./components/TeamForm";
 
 function App() {
+  const [teamates, setTeamate] = useState([
+    {
+      id: 1,
+      name: "Robert Campbell",
+      age: 28,
+      location: "Not Alaska",
+      languages: "html, css, javaScript, ReactJS"
+    }
+  ]);
+
+  const addNewTeamate = mate => {
+    const newTeamate = {
+      id: Date.now(),
+      name: mate.name,
+      age: mate.age,
+      location: mate.location,
+      languages: mate.languages
+    };
+    setTeamate([...teamates, newTeamate]);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TeamForm addNewTeamate={addNewTeamate} />
+      <TeamMember teamates={teamates} />
     </div>
   );
 }
