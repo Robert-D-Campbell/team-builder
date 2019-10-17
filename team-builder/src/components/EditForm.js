@@ -1,37 +1,29 @@
 import React, { useState } from "react";
 
-const TeamForm = props => {
-  console.log(props);
-  const [teamate, setTeamate] = useState({
-    name: "",
-    age: "",
-    location: "",
-    languages: ""
-  });
+const EditForm = props => {
+  console.log("edit form" + props);
+  const [teamate, setTeamate] = useState(props.currentTeamate);
 
-  const handleChange = e => {
-    setTeamate({ ...teamate, [e.target.name]: e.target.value });
-  };
+  const handleEditChange = e => {
+    const { name, value } = e.target;
 
-  const submitForm = e => {
-    e.preventDefault();
-    props.addNewTeamate(teamate);
-    setTeamate({
-      name: "",
-      age: "",
-      location: "",
-      languages: ""
-    });
+    setTeamate({ ...teamate, [name]: value });
   };
 
   return (
-    <form onSubmit={submitForm}>
+    <form
+      onSubmit={e => {
+        e.preventDefault();
+
+        props.updateTeamate(teamate.id, teamate);
+      }}
+    >
       <label htmlFor="name">Name: </label>
       <input
         id="name"
         type="text"
         name="name"
-        onChange={handleChange}
+        onChange={handleEditChange}
         value={teamate.name}
       />
       <label htmlFor="age">Age: </label>
@@ -39,7 +31,7 @@ const TeamForm = props => {
         id="age"
         type="text"
         name="age"
-        onChange={handleChange}
+        onChange={handleEditChange}
         value={teamate.age}
       />
       <label htmlFor="location">Location: </label>
@@ -47,7 +39,7 @@ const TeamForm = props => {
         id="location"
         type="text"
         name="location"
-        onChange={handleChange}
+        onChange={handleEditChange}
         value={teamate.location}
       />
       <label htmlFor="languages">Languages: </label>
@@ -55,12 +47,13 @@ const TeamForm = props => {
         id="languages"
         type="text"
         name="languages"
-        onChange={handleChange}
+        onChange={handleEditChange}
         value={teamate.languages}
       />
-      <button type="submit">Add Teamate</button>
+      <button>Update user</button>
+      <button onClick={() => props.setEditTeamate(false)}>Cancel</button>
     </form>
   );
 };
 
-export default TeamForm;
+export default EditForm;
